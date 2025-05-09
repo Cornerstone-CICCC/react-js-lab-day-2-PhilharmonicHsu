@@ -1,6 +1,7 @@
 import { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/userContextProvider";
+import toast from 'react-hot-toast';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -8,12 +9,13 @@ export default function Login() {
     const userCtx = useContext(UserContext)
 
     const handleLogin = () => {
-        if (usernameRef.current) {
+        if (usernameRef.current && usernameRef.current.value != '') {
             userCtx.toggleUsername(usernameRef.current.value)
             userCtx.toggleIsLogin(true)
+            toast.success('Login Successful')
             navigate("todo")
         } else {
-            alert('Please input your name.')
+            toast.error('Please input your name.')
         }
     }
 

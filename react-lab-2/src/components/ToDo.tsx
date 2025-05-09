@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import {useState, useRef, useContext, useEffect} from 'react'
 import { UserContext } from "../context/userContextProvider";
-
+import toast from 'react-hot-toast';
 import {v4 as uuid} from 'uuid'
 
 interface Todo {
@@ -19,7 +19,7 @@ export default function ToDo() {
         if (! userCtx.isLogin) {
             navigate("/");
         }
-    }, [])
+    }, [userCtx.isLogin])
 
     const handleLogout = () => {
         navigate("/");
@@ -28,9 +28,9 @@ export default function ToDo() {
     }
 
     const handleAddTask = () => {
-        const input = inputData.current?.value
+        const input = inputData.current?.value?.trim();
 
-        if (input != null && input!='') {
+        if (input) {
             setTodos(prev => [
                 ...prev,
                 {
@@ -43,7 +43,7 @@ export default function ToDo() {
                 inputData.current.value = "";
             }
         } else {
-            alert('Please input something...')
+            toast.error('Please input something...')
         }
     }
 
